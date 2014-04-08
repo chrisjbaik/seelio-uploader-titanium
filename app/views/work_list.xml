@@ -1,0 +1,8 @@
+<Alloy>
+	<Collection src="works" />
+	<Window class="container">
+		<TableView dataCollection="works">
+			<TableViewRow title="{title}" attachments="{attachments}" leftImage="{cover_m}" onClick="showWork"></TableViewRow>
+		</TableView>
+	</Window>
+</Alloy>
