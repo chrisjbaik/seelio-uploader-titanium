@@ -1,0 +1,8 @@
+<Alloy>
+	<Collection src="users" />
+	<Window class="container">
+		<TableView dataCollection="users">
+			<TableViewRow title="{fullName}" _id="{_id}" leftImage="{profile_photo_url}" onClick="showUserWorks"></TableViewRow>
+		</TableView>
+	</Window>
+</Alloy>

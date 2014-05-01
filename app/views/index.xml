@@ -1,8 +1,7 @@
 <Alloy>
-	<Collection src="users" />
-	<Window class="container">
-		<TableView dataCollection="users">
-			<TableViewRow title="{fullName}" _id="{_id}" leftImage="{profile_photo_url}" onClick="showUserWorks"></TableViewRow>
-		</TableView>
+	<Window class="container" layout="vertical">
+		<Label text="seelio"></Label>
+		<Button id="browseButton" title="Browse"></Button>
+		<Button id="uploadButton" title="Upload"></Button>
 	</Window>
 </Alloy>

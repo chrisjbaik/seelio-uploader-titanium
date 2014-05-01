@@ -1,15 +1,26 @@
 var args = arguments[0] || {};
 
-var win = Ti.UI.createWindow();
+function createAttachmentView(attachment) {
+	if (attachment.thumbs && attachment.thumbs.m) {
+		var attachmentView = Titanium.UI.createView();
+		var imageView = Titanium.UI.createImageView({
+			image: attachment.thumbs.l
+		});
+		attachmentView.add(imageView);
+		if (attachment.caption) {
+			var captionView = Titanium.UI.createLabel({
+				text: attachment.caption
+			});
+			attachmentView.add(captionView);
+		}
+		$.attachmentsScrollableView.addView(attachmentView);
+	}
+}
 
-var view1 = Ti.UI.createView({ backgroundColor:'#123' });
-var view2 = Ti.UI.createView({ backgroundColor:'#246' });
-var view3 = Ti.UI.createView({ backgroundColor:'#48b' });
+function createAttachmentViews(attachments) {
+	attachments.forEach(function (attachment) {
+		createAttachmentView(attachment);
+	});
+}
 
-var scrollableView = Ti.UI.createScrollableView({
-  views:[view1,view2,view3],
-  showPagingControl:true
-});
-
-win.add(scrollableView);
-win.open();
+createAttachmentViews(args.attachments);

@@ -1,1 +1,7 @@
-<Alloy></Alloy>
+<Alloy>
+	<Window class="container">
+		<ScrollableView id="attachmentsScrollableView">
+			<View></View>
+		</ScrollableView>
+	</Window>	
+</Alloy>

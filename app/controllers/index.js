@@ -1,33 +1,32 @@
-var users = Alloy.Collections.users;
+$.index.open();
 
-function retrieveUsersFromServer(users) {
-	var url = 'http://stagingapi.seelio.com/v1/users?api_key=seelio';
+function uploadPhotoToWork(_work, blob) {
+	var url = 'http://stagingapi.seelio.com/v1/works/' + _work + '/attachments?api_key=l5GufyCpYPaRoQB4wzZXeP%2BjZj6sT83b';
 	var xhr = Ti.Network.createHTTPClient({
 		onload: function (e) {
-			var result = JSON.parse(this.responseText);
-			result.forEach(function (userData) {
-				var user = Alloy.createModel('users', userData);
-				users.add(user);
-			});
+			alert('Successfully uploaded attachment!');
 		},
 		onerror: function(e) {
 			console.log(e.error);
 		},
 		timeout: 5000
 	});
-	xhr.open("GET", url);
-	xhr.send();
-}
-		
-retrieveUsersFromServer(users);
-
-function showUserWorks(event) {
-	var user = event.source;
-	var args = {
-		_user: user._id
-	};
-	var workListView = Alloy.createController("work_list", args).getView();
-	workListView.open();
+	xhr.open("POST", url);
+	xhr.send({
+		file: blob
+	});	
 }
 
-$.index.open();
+$.browseButton.addEventListener('click', function (e) {
+	var userListView = Alloy.createController("user_list").getView();
+	userListView.open();
+});
+
+$.uploadButton.addEventListener('click', function (e) {
+	Titanium.Media.showCamera({
+		saveToPhotoGallery: true,
+		success: function (event) {
+			uploadPhotoToWork('5356c483000bb05d750000fc', event.media);
+		}
+	});
+});

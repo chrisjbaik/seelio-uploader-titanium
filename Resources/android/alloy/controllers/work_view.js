@@ -1,4 +1,25 @@
 function Controller() {
+    function createAttachmentView(attachment) {
+        if (attachment.thumbs && attachment.thumbs.m) {
+            var attachmentView = Titanium.UI.createView();
+            var imageView = Titanium.UI.createImageView({
+                image: attachment.thumbs.l
+            });
+            attachmentView.add(imageView);
+            if (attachment.caption) {
+                var captionView = Titanium.UI.createLabel({
+                    text: attachment.caption
+                });
+                attachmentView.add(captionView);
+            }
+            $.attachmentsScrollableView.addView(attachmentView);
+        }
+    }
+    function createAttachmentViews(attachments) {
+        attachments.forEach(function(attachment) {
+            createAttachmentView(attachment);
+        });
+    }
     require("alloy/controllers/BaseController").apply(this, Array.prototype.slice.call(arguments));
     this.__controllerPath = "work_view";
     arguments[0] ? arguments[0]["__parentSymbol"] : null;
@@ -6,25 +27,25 @@ function Controller() {
     arguments[0] ? arguments[0]["__itemTemplate"] : null;
     var $ = this;
     var exports = {};
+    $.__views.work_view = Ti.UI.createWindow({
+        backgroundColor: "white",
+        id: "work_view"
+    });
+    $.__views.work_view && $.addTopLevelView($.__views.work_view);
+    var __alloyId17 = [];
+    $.__views.__alloyId18 = Ti.UI.createView({
+        id: "__alloyId18"
+    });
+    __alloyId17.push($.__views.__alloyId18);
+    $.__views.attachmentsScrollableView = Ti.UI.createScrollableView({
+        views: __alloyId17,
+        id: "attachmentsScrollableView"
+    });
+    $.__views.work_view.add($.__views.attachmentsScrollableView);
     exports.destroy = function() {};
     _.extend($, $.__views);
-    arguments[0] || {};
-    var win = Ti.UI.createWindow();
-    var view1 = Ti.UI.createView({
-        backgroundColor: "#123"
-    });
-    var view2 = Ti.UI.createView({
-        backgroundColor: "#246"
-    });
-    var view3 = Ti.UI.createView({
-        backgroundColor: "#48b"
-    });
-    var scrollableView = Ti.UI.createScrollableView({
-        views: [ view1, view2, view3 ],
-        showPagingControl: true
-    });
-    win.add(scrollableView);
-    win.open();
+    var args = arguments[0] || {};
+    createAttachmentViews(args.attachments);
     _.extend($, exports);
 }
 
