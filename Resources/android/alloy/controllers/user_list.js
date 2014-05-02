@@ -1,25 +1,27 @@
 function Controller() {
-    function __alloyId8(e) {
+    function __alloyId7(e) {
         if (e && e.fromAdapter) return;
-        __alloyId8.opts || {};
-        var models = __alloyId7.models;
+        __alloyId7.opts || {};
+        var models = __alloyId6.models;
         var len = models.length;
         var rows = [];
         for (var i = 0; len > i; i++) {
-            var __alloyId4 = models[i];
-            __alloyId4.__transform = {};
-            var __alloyId6 = Ti.UI.createTableViewRow({
+            var __alloyId3 = models[i];
+            __alloyId3.__transform = {};
+            var __alloyId5 = Ti.UI.createTableViewRow({
+                height: "40",
                 font: {
-                    fontSize: "24"
+                    fontSize: "20"
                 },
-                title: "undefined" != typeof __alloyId4.__transform["fullName"] ? __alloyId4.__transform["fullName"] : __alloyId4.get("fullName"),
-                _id: "undefined" != typeof __alloyId4.__transform["_id"] ? __alloyId4.__transform["_id"] : __alloyId4.get("_id"),
-                leftImage: "undefined" != typeof __alloyId4.__transform["profile_photo_url"] ? __alloyId4.__transform["profile_photo_url"] : __alloyId4.get("profile_photo_url")
+                color: "#999",
+                title: "undefined" != typeof __alloyId3.__transform["fullName"] ? __alloyId3.__transform["fullName"] : __alloyId3.get("fullName"),
+                _id: "undefined" != typeof __alloyId3.__transform["_id"] ? __alloyId3.__transform["_id"] : __alloyId3.get("_id"),
+                leftImage: "undefined" != typeof __alloyId3.__transform["profile_photo_url"] ? __alloyId3.__transform["profile_photo_url"] : __alloyId3.get("profile_photo_url")
             });
-            rows.push(__alloyId6);
-            showUserWorks ? __alloyId6.addEventListener("click", showUserWorks) : __defers["__alloyId6!click!showUserWorks"] = true;
+            rows.push(__alloyId5);
+            showUserWorks ? __alloyId5.addEventListener("click", showUserWorks) : __defers["__alloyId5!click!showUserWorks"] = true;
         }
-        $.__views.__alloyId3.setData(rows);
+        $.__views.__alloyId2.setData(rows);
     }
     function retrieveUsersFromServer(users) {
         var url = "http://stagingapi.seelio.com/v1/users?api_key=seelio";
@@ -56,24 +58,37 @@ function Controller() {
     var exports = {};
     var __defers = {};
     Alloy.Collections.instance("users");
-    $.__views.user_list = Ti.UI.createWindow({
+    $.__views.window = Ti.UI.createWindow({
         backgroundColor: "white",
-        id: "user_list"
+        id: "window"
     });
-    $.__views.user_list && $.addTopLevelView($.__views.user_list);
-    $.__views.__alloyId3 = Ti.UI.createTableView({
-        id: "__alloyId3"
+    $.__views.window && $.addTopLevelView($.__views.window);
+    $.__views.__alloyId2 = Ti.UI.createTableView({
+        id: "__alloyId2"
     });
-    $.__views.user_list.add($.__views.__alloyId3);
-    var __alloyId7 = Alloy.Collections["users"] || users;
-    __alloyId7.on("fetch destroy change add remove reset", __alloyId8);
+    $.__views.window.add($.__views.__alloyId2);
+    var __alloyId6 = Alloy.Collections["users"] || users;
+    __alloyId6.on("fetch destroy change add remove reset", __alloyId7);
     exports.destroy = function() {
-        __alloyId7.off("fetch destroy change add remove reset", __alloyId8);
+        __alloyId6.off("fetch destroy change add remove reset", __alloyId7);
     };
     _.extend($, $.__views);
     var users = Alloy.Collections.users;
+    users.reset([]);
     retrieveUsersFromServer(users);
-    __defers["__alloyId6!click!showUserWorks"] && __alloyId6.addEventListener("click", showUserWorks);
+    $.window.addEventListener("open", function() {
+        if ($.window.activity) {
+            $.window.activity.actionBar.title = "Browse";
+            $.window.activity.actionBar.setDisplayHomeAsUp(true);
+            $.window.activity.actionBar.onHomeIconItemSelected = function() {
+                $.window.close();
+            };
+        }
+    });
+    $.window.addEventListener("close", function() {
+        $.destroy();
+    });
+    __defers["__alloyId5!click!showUserWorks"] && __alloyId5.addEventListener("click", showUserWorks);
     _.extend($, exports);
 }
 

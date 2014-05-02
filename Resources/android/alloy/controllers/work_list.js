@@ -1,25 +1,27 @@
 function Controller() {
-    function __alloyId16(e) {
+    function __alloyId15(e) {
         if (e && e.fromAdapter) return;
-        __alloyId16.opts || {};
-        var models = __alloyId15.models;
+        __alloyId15.opts || {};
+        var models = __alloyId14.models;
         var len = models.length;
         var rows = [];
         for (var i = 0; len > i; i++) {
-            var __alloyId12 = models[i];
-            __alloyId12.__transform = {};
-            var __alloyId14 = Ti.UI.createTableViewRow({
+            var __alloyId11 = models[i];
+            __alloyId11.__transform = {};
+            var __alloyId13 = Ti.UI.createTableViewRow({
+                height: "40",
                 font: {
-                    fontSize: "24"
+                    fontSize: "20"
                 },
-                title: "undefined" != typeof __alloyId12.__transform["title"] ? __alloyId12.__transform["title"] : __alloyId12.get("title"),
-                attachments: "undefined" != typeof __alloyId12.__transform["attachments"] ? __alloyId12.__transform["attachments"] : __alloyId12.get("attachments"),
-                leftImage: "undefined" != typeof __alloyId12.__transform["cover_m"] ? __alloyId12.__transform["cover_m"] : __alloyId12.get("cover_m")
+                color: "#999",
+                title: "undefined" != typeof __alloyId11.__transform["title"] ? __alloyId11.__transform["title"] : __alloyId11.get("title"),
+                attachments: "undefined" != typeof __alloyId11.__transform["attachments"] ? __alloyId11.__transform["attachments"] : __alloyId11.get("attachments"),
+                leftImage: "undefined" != typeof __alloyId11.__transform["cover_m"] ? __alloyId11.__transform["cover_m"] : __alloyId11.get("cover_m")
             });
-            rows.push(__alloyId14);
-            showWork ? __alloyId14.addEventListener("click", showWork) : __defers["__alloyId14!click!showWork"] = true;
+            rows.push(__alloyId13);
+            showWork ? __alloyId13.addEventListener("click", showWork) : __defers["__alloyId13!click!showWork"] = true;
         }
-        $.__views.__alloyId11.setData(rows);
+        $.__views.__alloyId10.setData(rows);
     }
     function retrieveWorksFromServer(works, _user) {
         var url = "http://stagingapi.seelio.com/v1/users/" + _user + "/works?api_key=seelio";
@@ -57,25 +59,29 @@ function Controller() {
     var exports = {};
     var __defers = {};
     Alloy.Collections.instance("works");
-    $.__views.work_list = Ti.UI.createWindow({
+    $.__views.window = Ti.UI.createWindow({
         backgroundColor: "white",
-        id: "work_list"
+        id: "window"
     });
-    $.__views.work_list && $.addTopLevelView($.__views.work_list);
-    $.__views.__alloyId11 = Ti.UI.createTableView({
-        id: "__alloyId11"
+    $.__views.window && $.addTopLevelView($.__views.window);
+    $.__views.__alloyId10 = Ti.UI.createTableView({
+        id: "__alloyId10"
     });
-    $.__views.work_list.add($.__views.__alloyId11);
-    var __alloyId15 = Alloy.Collections["works"] || works;
-    __alloyId15.on("fetch destroy change add remove reset", __alloyId16);
+    $.__views.window.add($.__views.__alloyId10);
+    var __alloyId14 = Alloy.Collections["works"] || works;
+    __alloyId14.on("fetch destroy change add remove reset", __alloyId15);
     exports.destroy = function() {
-        __alloyId15.off("fetch destroy change add remove reset", __alloyId16);
+        __alloyId14.off("fetch destroy change add remove reset", __alloyId15);
     };
     _.extend($, $.__views);
     var args = arguments[0] || {};
     var works = Alloy.Collections.works;
+    works.reset([]);
     retrieveWorksFromServer(works, args._user);
-    __defers["__alloyId14!click!showWork"] && __alloyId14.addEventListener("click", showWork);
+    $.window.addEventListener("close", function() {
+        $.destroy();
+    });
+    __defers["__alloyId13!click!showWork"] && __alloyId13.addEventListener("click", showWork);
     _.extend($, exports);
 }
 

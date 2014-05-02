@@ -9,3 +9,28 @@
 // object. For example:
 //
 // Alloy.Globals.someGlobalFunction = function(){};
+
+//Activity Indicator.
+var indWin = null;
+
+Alloy.Globals.showIndicator = function() {
+    try {
+        if (indWin == null)
+            indWin = Alloy.createController('indicator').getView();
+        indWin.showIndicator();
+    } catch(e) {
+        Ti.API.info("Exception in opening indicator");
+    }
+
+};
+
+Alloy.Globals.hideIndicator = function() {
+    try {
+        if (indWin != null) {
+            indWin.hideIndicator();
+            indWin = null;
+        }
+    } catch(e) {
+        Ti.API.info("Exception in hiding indicator");
+    }
+};

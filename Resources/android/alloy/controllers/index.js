@@ -1,20 +1,4 @@
 function Controller() {
-    function uploadPhotoToWork(_work, blob) {
-        var url = "http://stagingapi.seelio.com/v1/works/" + _work + "/attachments?api_key=l5GufyCpYPaRoQB4wzZXeP%2BjZj6sT83b";
-        var xhr = Ti.Network.createHTTPClient({
-            onload: function() {
-                alert("Successfully uploaded attachment!");
-            },
-            onerror: function(e) {
-                console.log(e.error);
-            },
-            timeout: 5e3
-        });
-        xhr.open("POST", url);
-        xhr.send({
-            file: blob
-        });
-    }
     require("alloy/controllers/BaseController").apply(this, Array.prototype.slice.call(arguments));
     this.__controllerPath = "index";
     arguments[0] ? arguments[0]["__parentSymbol"] : null;
@@ -23,32 +7,62 @@ function Controller() {
     var $ = this;
     var exports = {};
     $.__views.index = Ti.UI.createWindow({
-        backgroundColor: "white",
+        backgroundColor: "#71BBEA",
         layout: "vertical",
+        exitOnClose: "true",
         id: "index"
     });
     $.__views.index && $.addTopLevelView($.__views.index);
-    $.__views.__alloyId0 = Ti.UI.createLabel({
+    $.__views.logo = Ti.UI.createLabel({
         width: Ti.UI.SIZE,
-        height: Ti.UI.SIZE,
-        color: "#000",
-        text: "seelio",
-        id: "__alloyId0"
+        height: "50%",
+        color: "#fff",
+        font: {
+            fontFamily: "Museo500-Regular",
+            fontSize: "60"
+        },
+        id: "logo",
+        text: "seelio"
     });
-    $.__views.index.add($.__views.__alloyId0);
+    $.__views.index.add($.__views.logo);
     $.__views.browseButton = Ti.UI.createButton({
+        width: "80%",
+        height: "50",
+        font: {
+            fontFamily: "LiberationSans-Regular",
+            fontSize: "20"
+        },
+        borderRadius: "4",
+        borderWidth: "1",
+        borderColor: "#fff",
+        backgroundColor: "transparent",
+        color: "#fff",
+        backgroundSelectedColor: "#eee",
+        top: "20",
         id: "browseButton",
         title: "Browse"
     });
     $.__views.index.add($.__views.browseButton);
     $.__views.uploadButton = Ti.UI.createButton({
+        width: "80%",
+        height: "50",
+        font: {
+            fontFamily: "LiberationSans-Regular",
+            fontSize: "20"
+        },
+        borderRadius: "4",
+        borderWidth: "1",
+        borderColor: "#fff",
+        backgroundColor: "transparent",
+        color: "#fff",
+        backgroundSelectedColor: "#eee",
+        top: "20",
         id: "uploadButton",
         title: "Upload"
     });
     $.__views.index.add($.__views.uploadButton);
     exports.destroy = function() {};
     _.extend($, $.__views);
-    $.index.open();
     $.browseButton.addEventListener("click", function() {
         var userListView = Alloy.createController("user_list").getView();
         userListView.open();
@@ -57,10 +71,21 @@ function Controller() {
         Titanium.Media.showCamera({
             saveToPhotoGallery: true,
             success: function(event) {
-                uploadPhotoToWork("5356c483000bb05d750000fc", event.media);
+                var args = {
+                    blob: event.media
+                };
+                var selectAndUploadView = Alloy.createController("work_selectAndUpload", args).getView();
+                selectAndUploadView.open();
+            },
+            error: function() {
+                alert("There was an error taking the photo.");
             }
         });
     });
+    $.index.addEventListener("open", function() {
+        $.index.activity.actionBar.hide();
+    });
+    $.index.open();
     _.extend($, exports);
 }
 

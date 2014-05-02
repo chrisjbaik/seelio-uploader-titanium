@@ -1,6 +1,6 @@
 <Alloy>
-	<Window class="container" layout="vertical">
-		<Label text="seelio"></Label>
+	<Window class="container" layout="vertical" exitOnClose="true">
+		<Label id="logo" text="seelio"></Label>
 		<Button id="browseButton" title="Browse"></Button>
 		<Button id="uploadButton" title="Upload"></Button>
 	</Window>

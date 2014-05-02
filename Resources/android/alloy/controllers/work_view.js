@@ -32,13 +32,13 @@ function Controller() {
         id: "work_view"
     });
     $.__views.work_view && $.addTopLevelView($.__views.work_view);
-    var __alloyId17 = [];
-    $.__views.__alloyId18 = Ti.UI.createView({
-        id: "__alloyId18"
+    var __alloyId23 = [];
+    $.__views.__alloyId24 = Ti.UI.createView({
+        id: "__alloyId24"
     });
-    __alloyId17.push($.__views.__alloyId18);
+    __alloyId23.push($.__views.__alloyId24);
     $.__views.attachmentsScrollableView = Ti.UI.createScrollableView({
-        views: __alloyId17,
+        views: __alloyId23,
         id: "attachmentsScrollableView"
     });
     $.__views.work_view.add($.__views.attachmentsScrollableView);

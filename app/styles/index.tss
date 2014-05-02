@@ -1,0 +1,26 @@
+'.container': {
+	backgroundColor: '#71BBEA'
+},
+'#logo': {
+	height: '50%',
+	color: '#fff',
+	font: {
+		fontFamily: 'Museo500-Regular',
+		fontSize: '60'
+	}
+},
+"Button": {
+	width: '80%',
+	height: '50',
+	font: {
+		fontFamily: "LiberationSans-Regular",
+		fontSize: '20'
+	},
+	borderRadius: '4',
+	borderWidth: '1',
+	borderColor: '#fff',
+	backgroundColor: 'transparent',
+	color: '#fff',
+	backgroundSelectedColor: '#eee',
+	top: '20'
+}

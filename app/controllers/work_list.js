@@ -1,6 +1,7 @@
 var args = arguments[0] || {};
 
 var works = Alloy.Collections.works;
+works.reset([]);
 
 function retrieveWorksFromServer(works, _user) {
 	var url = 'http://stagingapi.seelio.com/v1/users/' + _user + '/works?api_key=seelio';
@@ -32,3 +33,7 @@ function showWork(event) {
 	var workView = Alloy.createController("work_view", args).getView();
 	workView.open();
 }
+
+$.window.addEventListener("close", function(){
+    $.destroy();
+});
