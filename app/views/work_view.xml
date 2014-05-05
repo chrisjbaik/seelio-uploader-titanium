@@ -1,7 +1,5 @@
 <Alloy>
-	<Window class="container">
-		<ScrollableView id="attachmentsScrollableView">
-			<View></View>
-		</ScrollableView>
+	<Window class="container" id="window" fullscreen="true">
+		<ScrollableView id="attachmentsScrollableView"></ScrollableView>
 	</Window>	
 </Alloy>

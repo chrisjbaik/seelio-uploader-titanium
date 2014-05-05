@@ -1,8 +1,16 @@
 <Alloy>
 	<Collection src="works" />
 	<Window class="container" id="window">
-		<TableView dataCollection="works">
-			<TableViewRow title="{title}" attachments="{attachments}" leftImage="{cover_m}" onClick="showWork"></TableViewRow>
-		</TableView>
+		<ListView id="workList" defaultItemTemplate="workListTemplate" onItemclick="itemClickHandler">
+			<Templates>
+				<ItemTemplate class="listView" name="workListTemplate">
+					<ImageView bindId="image" class="listViewImage" />
+					<Label bindId="label" class="listViewLabel" />
+				</ItemTemplate>
+			</Templates>
+			<ListSection dataCollection="works">
+				<ListItem template="workListTemplate" image:image="{cover_m}" label:text="{title}" _id="{_id}" title="{title}" attachments="{attachments}" cover="{cover_m}" />
+			</ListSection>	
+		</ListView>
 	</Window>
 </Alloy>

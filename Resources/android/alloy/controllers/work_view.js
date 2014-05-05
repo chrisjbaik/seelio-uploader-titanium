@@ -1,14 +1,34 @@
 function Controller() {
+    function normalizeUrl(url) {
+        url.match(/^\/[^\/]/) && (url = url.replace(/^\//, "https://seelio.com/"));
+        return url.replace(/^\/\//, "http://");
+    }
     function createAttachmentView(attachment) {
-        if (attachment.thumbs && attachment.thumbs.m) {
+        if (attachment.thumbs && attachment.thumbs.l) {
             var attachmentView = Titanium.UI.createView();
-            var imageView = Titanium.UI.createImageView({
-                image: attachment.thumbs.l
-            });
-            attachmentView.add(imageView);
+            if (attachment.html && attachment.html.o && attachment.html.o.match(/iframe/)) {
+                var match = attachment.html.o.match(/src="([^"]+)"/);
+                if (match.length > 1) {
+                    var webView = Titanium.UI.createWebView({
+                        url: normalizeUrl(match[1]),
+                        width: "75%",
+                        height: "75%"
+                    });
+                    attachmentView.add(webView);
+                }
+            } else {
+                attachment.thumbs.l = normalizeUrl(attachment.thumbs.l);
+                var imageView = Titanium.UI.createImageView({
+                    image: attachment.thumbs.l
+                });
+                attachmentView.add(imageView);
+            }
             if (attachment.caption) {
                 var captionView = Titanium.UI.createLabel({
-                    text: attachment.caption
+                    text: attachment.caption,
+                    textAlign: Titanium.UI.TEXT_ALIGNMENT_LEFT,
+                    color: "#fff",
+                    bottom: 40
                 });
                 attachmentView.add(captionView);
             }
@@ -27,25 +47,33 @@ function Controller() {
     arguments[0] ? arguments[0]["__itemTemplate"] : null;
     var $ = this;
     var exports = {};
-    $.__views.work_view = Ti.UI.createWindow({
-        backgroundColor: "white",
-        id: "work_view"
+    $.__views.window = Ti.UI.createWindow({
+        backgroundColor: "#000",
+        id: "window",
+        fullscreen: "true"
     });
-    $.__views.work_view && $.addTopLevelView($.__views.work_view);
-    var __alloyId23 = [];
-    $.__views.__alloyId24 = Ti.UI.createView({
-        id: "__alloyId24"
-    });
-    __alloyId23.push($.__views.__alloyId24);
+    $.__views.window && $.addTopLevelView($.__views.window);
+    var __alloyId36 = [];
     $.__views.attachmentsScrollableView = Ti.UI.createScrollableView({
-        views: __alloyId23,
+        views: __alloyId36,
         id: "attachmentsScrollableView"
     });
-    $.__views.work_view.add($.__views.attachmentsScrollableView);
+    $.__views.window.add($.__views.attachmentsScrollableView);
     exports.destroy = function() {};
     _.extend($, $.__views);
     var args = arguments[0] || {};
-    createAttachmentViews(args.attachments);
+    $.window.addEventListener("open", function() {
+        createAttachmentViews(args.attachments);
+        if ($.window.activity) {
+            $.window.activity.actionBar.title = args.title;
+            args.cover && $.window.activity.actionBar.setIcon(args.cover);
+            $.window.activity.actionBar.setDisplayHomeAsUp(true);
+            $.window.activity.actionBar.onHomeIconItemSelected = function() {
+                $.window.close();
+            };
+            $.window.activity.actionBar.hide();
+        }
+    });
     _.extend($, exports);
 }
 

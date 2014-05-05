@@ -72,10 +72,13 @@ function Controller() {
             saveToPhotoGallery: true,
             success: function(event) {
                 var args = {
-                    blob: event.media
+                    _user: "501bd1a0fca473f97d000017",
+                    actionBarTitle: "Select a work",
+                    blob: event.media,
+                    clickHandler: "uploadPhotoToWork"
                 };
-                var selectAndUploadView = Alloy.createController("work_selectAndUpload", args).getView();
-                selectAndUploadView.open();
+                var workListView = Alloy.createController("work_list", args).getView();
+                workListView.open();
             },
             error: function() {
                 alert("There was an error taking the photo.");

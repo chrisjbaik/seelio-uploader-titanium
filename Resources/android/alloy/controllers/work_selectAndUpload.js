@@ -1,26 +1,26 @@
 function Controller() {
-    function __alloyId22(e) {
+    function __alloyId42(e) {
         if (e && e.fromAdapter) return;
-        __alloyId22.opts || {};
-        var models = __alloyId21.models;
+        __alloyId42.opts || {};
+        var models = __alloyId41.models;
         var len = models.length;
         var rows = [];
         for (var i = 0; len > i; i++) {
-            var __alloyId18 = models[i];
-            __alloyId18.__transform = {};
-            var __alloyId20 = Ti.UI.createTableViewRow({
+            var __alloyId38 = models[i];
+            __alloyId38.__transform = {};
+            var __alloyId40 = Ti.UI.createTableViewRow({
                 height: "40",
                 font: {
                     fontSize: "20"
                 },
                 color: "#999",
-                _id: "undefined" != typeof __alloyId18.__transform["_id"] ? __alloyId18.__transform["_id"] : __alloyId18.get("_id"),
-                title: "undefined" != typeof __alloyId18.__transform["title"] ? __alloyId18.__transform["title"] : __alloyId18.get("title"),
-                attachments: "undefined" != typeof __alloyId18.__transform["attachments"] ? __alloyId18.__transform["attachments"] : __alloyId18.get("attachments"),
-                leftImage: "undefined" != typeof __alloyId18.__transform["cover_m"] ? __alloyId18.__transform["cover_m"] : __alloyId18.get("cover_m")
+                _id: "undefined" != typeof __alloyId38.__transform["_id"] ? __alloyId38.__transform["_id"] : __alloyId38.get("_id"),
+                title: "undefined" != typeof __alloyId38.__transform["title"] ? __alloyId38.__transform["title"] : __alloyId38.get("title"),
+                attachments: "undefined" != typeof __alloyId38.__transform["attachments"] ? __alloyId38.__transform["attachments"] : __alloyId38.get("attachments"),
+                leftImage: "undefined" != typeof __alloyId38.__transform["cover_m"] ? __alloyId38.__transform["cover_m"] : __alloyId38.get("cover_m")
             });
-            rows.push(__alloyId20);
-            uploadPhotoToWork ? __alloyId20.addEventListener("click", uploadPhotoToWork) : __defers["__alloyId20!click!uploadPhotoToWork"] = true;
+            rows.push(__alloyId40);
+            uploadPhotoToWork ? __alloyId40.addEventListener("click", uploadPhotoToWork) : __defers["__alloyId40!click!uploadPhotoToWork"] = true;
         }
         $.__views.workList.setData(rows);
     }
@@ -78,41 +78,42 @@ function Controller() {
         layout: "vertical"
     });
     $.__views.window && $.addTopLevelView($.__views.window);
-    $.__views.selectWorkLabel = Ti.UI.createLabel({
-        width: Ti.UI.SIZE,
-        height: Ti.UI.SIZE,
-        color: "#000",
-        font: {
-            fontSize: "25",
-            fontWeight: "bold"
-        },
-        textAlign: "Ti.UI.TEXT_ALIGNMENT_LEFT",
-        text: "Select a work",
-        id: "selectWorkLabel"
-    });
-    $.__views.window.add($.__views.selectWorkLabel);
-    $.__views.loading = Ti.UI.createActivityIndicator({
-        id: "loading"
-    });
-    $.__views.window.add($.__views.loading);
     $.__views.workList = Ti.UI.createTableView({
         id: "workList"
     });
     $.__views.window.add($.__views.workList);
-    var __alloyId21 = Alloy.Collections["works"] || works;
-    __alloyId21.on("fetch destroy change add remove reset", __alloyId22);
+    var __alloyId41 = Alloy.Collections["works"] || works;
+    __alloyId41.on("fetch destroy change add remove reset", __alloyId42);
+    $.__views.loading = Ti.UI.createActivityIndicator({
+        height: "100%",
+        width: "100%",
+        zIndex: 5e3,
+        opacity: .7,
+        id: "loading",
+        style: Ti.UI.ActivityIndicatorStyle.BIG
+    });
+    $.__views.loading && $.addTopLevelView($.__views.loading);
     exports.destroy = function() {
-        __alloyId21.off("fetch destroy change add remove reset", __alloyId22);
+        __alloyId41.off("fetch destroy change add remove reset", __alloyId42);
     };
     _.extend($, $.__views);
     var args = arguments[0] || {};
     var works = Alloy.Collections.works;
-    works.reset([]);
-    retrieveWorksFromServer(works, "501bd1a0fca473f97d000017");
+    $.window.addEventListener("open", function() {
+        works.reset([]);
+        retrieveWorksFromServer(works, "501bd1a0fca473f97d000017");
+        if ($.window.activity) {
+            $.window.activity.actionBar.title = "Select a work";
+            $.window.activity.actionBar.setDisplayHomeAsUp(true);
+            $.window.activity.actionBar.onHomeIconItemSelected = function() {
+                $.window.close();
+            };
+        }
+    });
     $.window.addEventListener("close", function() {
         $.destroy();
     });
-    __defers["__alloyId20!click!uploadPhotoToWork"] && __alloyId20.addEventListener("click", uploadPhotoToWork);
+    __defers["__alloyId40!click!uploadPhotoToWork"] && __alloyId40.addEventListener("click", uploadPhotoToWork);
     _.extend($, exports);
 }
 

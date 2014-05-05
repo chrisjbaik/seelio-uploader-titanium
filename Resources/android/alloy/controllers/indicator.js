@@ -37,10 +37,12 @@ function Controller() {
     }());
     $.__views.indicator.add($.__views.indicatorBack);
     $.__views.activityInd = Ti.UI.createActivityIndicator({
-        color: "white",
-        message: " Loading...",
+        height: "100%",
+        width: "100%",
         zIndex: 10,
         opacity: 1,
+        color: "white",
+        message: " Loading...",
         id: "activityInd"
     });
     $.__views.indicator.add($.__views.activityInd);

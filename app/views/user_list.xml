@@ -1,8 +1,16 @@
 <Alloy>
 	<Collection src="users" />
 	<Window class="container" id="window">
-		<TableView dataCollection="users">
-			<TableViewRow title="{fullName}" _id="{_id}" leftImage="{profile_photo_url}" onClick="showUserWorks"></TableViewRow>
-		</TableView>
+		<ListView id="userList" defaultItemTemplate="userListTemplate" onItemclick="showUserWorks">
+			<Templates>
+				<ItemTemplate class="listView" name="userListTemplate">
+					<ImageView bindId="image" class="listViewImage" />
+					<Label bindId="label" class="listViewLabel" />
+				</ItemTemplate>
+			</Templates>
+			<ListSection dataCollection="users">
+				<ListItem template="userListTemplate" image:image="{profile_photo_url}" label:text="{fullName}" _id="{_id}" fullName="{fullName}" profile_photo_url="{profile_photo_url}" />
+			</ListSection>	
+		</ListView>
 	</Window>
 </Alloy>

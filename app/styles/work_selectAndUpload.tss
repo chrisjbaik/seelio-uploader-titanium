@@ -1,7 +1,0 @@
-'#selectWorkLabel': {
-	textAlign: 'Ti.UI.TEXT_ALIGNMENT_LEFT',
-	font: {
-		fontSize: '25',
-		fontWeight: 'bold'
-	}
-}
